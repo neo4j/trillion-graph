@@ -1,0 +1,186 @@
+<carousel class="deck container-fluid">
+  <slide class="row-fluid">LDBC</slide>
+
+    <a href="http://ldbc.github.io/ldbc_snb_docs/ldbc-snb-specification.pdf">LDBC Benchmark Reference</a>
+  <slide class="row-fluid">
+    <div class="col-sm-3">
+      <h3>LDBC Complex Query 4</h3>
+      <p class="lead">Informative text</p>
+    </div>
+    <div class="col-sm-9">
+      <figure>
+        <pre class="pre-scrollable code runnable">CALL {
+          USE fabric.persons
+          MATCH (person:Person {id: $Person})-[:KNOWS]-(friend)
+          RETURN collect(friend.id) AS personIds
+        }
+        
+        with *, fabric.graphIds()  AS gids
+        UNWIND gids AS gid
+        CALL {
+          USE fabric.graph(gid)
+          WITH personIds
+          UNWIND personIds AS personId
+          MATCH (:Person {id:personId})<-[:HAS_CREATOR]-(post)-[:HAS_TAG]->(tag)
+            WHERE $Date0 > post.creationDate
+          RETURN DISTINCT tag.id AS invalidTagId
+        }
+        
+        WITH gids, personIds, collect(DISTINCT invalidTagId) AS invalidTagIds
+        
+        UNWIND gids AS gid
+        CALL {
+          USE fabric.graph(gid)
+          WITH personIds, invalidTagIds
+          UNWIND personIds AS personId
+          MATCH (:Person {id:personId})<-[:HAS_CREATOR]-(post)-[:HAS_TAG]->(tag)
+            WHERE NOT tag.id IN invalidTagIds AND ($Date0+duration({days:$Duration})) > post.creationDate >= $Date0
+          RETURN tag.name AS tagName, count(post) AS shardPostCount
+        }
+        
+        RETURN tagName, sum(shardPostCount) AS postCount
+          ORDER BY postCount DESC, tagName ASC
+          LIMIT 20
+        </pre>
+        <figcaption>LDBC Complex Query 4</figcaption>
+      </figure>
+    </div>
+  
+  </slide>
+
+<slide class="row-fluid">
+    <div class="col-sm-3">
+      <h3>LDBC Complex Query 6</h3>
+      <p class="lead">Informative text</p>
+    </div>
+    <div class="col-sm-9">
+      <figure>
+        <pre class="pre-scrollable code runnable">CALL {
+          USE fabric.persons
+          MATCH (person:Person {id:$Person})-[:KNOWS*1..2]-(friend)
+            WHERE NOT person=friend
+          WITH DISTINCT friend.id AS fid
+          RETURN collect(fid) AS fids
+        }
+        
+        with *, fabric.graphIds()  AS gids
+        UNWIND gids AS gid
+        CALL {
+          USE fabric.graph(gid)
+          WITH fids
+        
+          MATCH (friend:Person) WHERE friend.id IN fids
+          MATCH (knownTag:Tag {name:$Tag})
+        
+          MATCH (friend)<-[:HAS_CREATOR]-(post)-[:HAS_TAG]->(knownTag)
+          WITH post, knownTag
+          MATCH (post)-[:HAS_TAG]->(tag)
+            WHERE NOT tag=knownTag
+          WITH tag, count(post) AS postCount
+          RETURN tag.name AS tagName, postCount
+            ORDER BY postCount DESC, tagName ASC
+        }
+        RETURN tagName, sum(postCount) AS postCount
+          ORDER BY postCount DESC, tagName ASC
+          LIMIT 20
+        </pre>
+        <figcaption>LDBC Complex Query 6</figcaption>
+      </figure>
+    </div>
+  
+  </slide>
+
+
+<slide class="row-fluid">
+  <div class="col-sm-3">
+    <h3>LDBC Complex Query 7</h3>
+    <p class="lead">Informative text</p>
+  </div>
+  <div class="col-sm-9">
+    <figure>
+      <pre class="pre-scrollable code runnable">WITH fabric.graphIds()  AS gids
+        UNWIND gids AS gid
+        CALL {
+          USE fabric.graph(gid)
+          MATCH (:Person {id:$Person})<-[:HAS_CREATOR|HAS_CREATOR]-(message),
+                (message)<-[like:LIKES|LIKES]-(liker)
+          RETURN liker.id AS likerId, message, like.creationDate AS likeTime
+        }
+        
+        WITH *
+            ORDER BY likeTime DESC, message.id ASC
+        
+        WITH likerId as lid,
+             head(collect(message)) AS globalTopMessage,
+             head(collect(likeTime)) AS globalTopLikeTime
+        
+        CALL {
+          USE fabric.persons
+          WITH lid 
+          MATCH (liker:Person {id:lid})
+          RETURN liker, not((liker)-[:KNOWS]-({id:$Person})) AS isNew
+        }
+        RETURN liker.id AS personId,
+               liker.firstName AS personFirstName,
+               liker.lastName AS personLastName,
+               globalTopLikeTime,
+               isNew,
+               globalTopMessage.id AS messageId,
+               coalesce(globalTopMessage.content,globalTopMessage.imageFile) AS messageContent,
+               globalTopMessage.creationDate AS messageCreationDate
+            ORDER BY globalTopLikeTime DESC, personId ASC
+            LIMIT 20
+      </pre>
+      <figcaption>LDBC Complex Query 6</figcaption>
+    </figure>
+  </div>
+
+</slide>
+
+
+<slide class="row-fluid">
+  <div class="col-sm-3">
+    <h3>LDBC Complex Query 9</h3>
+    <p class="lead">Informative text</p>
+  </div>
+  <div class="col-sm-9">
+    <figure>
+      <pre class="pre-scrollable code runnable">
+        CALL {
+          USE fabric.persons
+          MATCH (person:Person {id: $Person})-[:KNOWS*1..2]-(friend)
+            WHERE NOT person = friend
+          WITH DISTINCT friend
+          WITH {id: friend.id, firstName: friend.firstName, lastName: friend.lastName} AS person
+          RETURN collect(person) AS persons
+        }
+        
+        with *, fabric.graphIds()  AS gids
+        UNWIND gids AS gid
+        CALL {
+          USE fabric.graph(gid)
+          WITH persons
+          UNWIND persons AS person
+        
+          MATCH (friend:Person {id: person.id})<-[:HAS_CREATOR|HAS_CREATOR]-(message)
+            WHERE message.creationDate < $Date0
+          RETURN person, message
+            ORDER BY message.creationDate DESC, message.id ASC
+            LIMIT 20
+        }
+        RETURN message.id AS messageId,
+               coalesce(message.content,message.imageFile) AS messageContent,
+               message.creationDate AS messageCreationDate,
+               person.id AS personId,
+               person.firstName AS personFirstName,
+               person.lastName AS personLastName
+          ORDER BY messageCreationDate DESC, messageId ASC
+          LIMIT 20;
+      </pre>
+      <figcaption>LDBC Complex Query 6</figcaption>
+    </figure>
+  </div>
+
+</slide>
+
+</carousel>

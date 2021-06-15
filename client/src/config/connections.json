@@ -1,0 +1,41 @@
+[
+    {
+        "name": "Fabric A ",
+        "shards": 11,
+        "records": {
+            "fixedNodes": 3000000000,
+            "fixedRelationships": 16000000000,
+            "nodesPerShard": 182456163,
+            "relationshipsPerShard": 907815804
+        },
+        "bolt": "bolt://localhost:7687",
+        "username": "neo4j",
+        "password": "newpassword"
+    },
+    {
+        "name": "Fabric B",
+        "shards": 101,
+        "records": {
+            "fixedNodes": 3000000000,
+            "fixedRelationships": 16000000000,
+            "nodesPerShard": 182456163,
+            "relationshipsPerShard": 907815804
+        },
+        "bolt": "bolt://localhost:7687",
+        "username": "neo4j",
+        "password": "newpassword"
+    },
+    {
+        "name": "Fabric C",
+        "shards": 1129,
+        "records": {
+            "fixedNodes": 3000000000,
+            "fixedRelationships": 16000000000,
+            "nodesPerShard": 182456163,
+            "relationshipsPerShard": 907815804
+        },
+        "bolt": "bolt://localhost:7687",
+        "username": "neo4j",
+        "password": "newpassword"
+    }
+]
