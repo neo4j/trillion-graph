@@ -1,11 +1,55 @@
 <carousel class="deck container-fluid">
-  <slide class="row-fluid">LDBC
+  <slide class="row-fluid">
 
-    The Trillion Graph dataset is a social graph, generated according to the specifications
+    <div class="col-sm-6">
+    <h3>Trillion Graph Demo</h3>
+
+    <p>
+    The Trillion Graph is a demo application based on a social graph with Persons, Forums and content. 
+    The social graph seems simple, yet demonstrates an important strategy for properly scaling a graph:
+    </p>
+    <ol>
+      <li>Recognize the growth patterns within the data</li>
+      <li>Use appropriate strategies for each pattern</li>
+    </ol>
+    <br/>
+    <p>
+    The data itself has been generated according to the specifications
     of the <a href="http://ldbc.github.io/ldbc_snb_docs/ldbc-snb-specification.pdf">LDBC Social Network Benchmark graph</a>.
-    The people, forums, and content are easy to understand yet demonstrate the challenges of data volume growth --
-    the 
-    <img src="./resources/images/ldbc-model.png" />
+    This demonstration is not a benchmark, but the benchmark data is perfect for evaluating the impact of the scaling strategies.
+    </p>
+
+    </div>
+
+    <div class="col-sm-6">
+      <img width="400" src="http://devrel-images.s3.amazonaws.com/nodes2021/ldbc-model.png" />
+    </div>
+
+
+  </slide>
+
+  <slide class="row-fluid">
+
+    <div class="col-sm-6">
+    <h3>Scaling Strategies</h3>
+
+    <p>
+      The Persons could grow large, but even 3 Billion users would be more than popular social networks yet
+      small enough to fit on a single shard. Also, Persons are read often but change less often. This is a
+      perfect fit for using a replication strategy.
+    </p>
+    <p>
+      The forum content, though, is fresh every day. That drives incredible growth over time. 
+      Each Forum creates a cluster of related content, a great candidate for sharding!
+    </p>
+    <br/>
+    </div>
+
+    <div class="col-sm-6">
+      <img width="400" src="http://devrel-images.s3.amazonaws.com/nodes2021/shard-strategy.png" />
+    </div>
+
+
   </slide>
 
   <slide class="row-fluid">
