@@ -53,9 +53,45 @@
   </slide>
 
   <slide class="row-fluid">
+
+    <div class="col-sm-4">
+    <h3>LDBC Queries</h3>
+
+    <p>
+      The Cypher queries in the following slides are derived from the LDBC specification.
+    </p>
+    <p>Requirements before they can be run:
+    </p>
+    <ol>
+      <li>A database named <code>fabric</code> must exist on the current, active DBMS</li>
+      <li>That database must be selected for use</li>
+      <li>Parameters must be set which match the generated data (see example on the right)</li>
+    </ol>
+    </div>
+
+    <div class="col-sm-8">
+      <figure>
+        <pre class="pre-scrollable code runnable">:use fabric</pre>
+      </figure>
+
+      <figure>
+        <pre class="pre-scrollable code runnable">
+:param Duration => 10;
+:param Date0 => date({year:2021, month:5, day:14});
+:param Tag => "Gulshan_Grover";
+:param Person => 290112
+        </pre>
+        <p>Example parameters for the LDBC queries. These <i>must</i> be adjusted to fit the generated data.</p>
+      </figure>
+    </div>
+
+
+  </slide>
+  <slide class="row-fluid">
     <div class="col-sm-3">
-      <h3>LDBC Complex Query 4</h3>
-      <p class="lead">Informative text</p>
+      <h3>Trending Topics</h3>
+      <p class="lead">LDBC Read Complex Query 4</p>
+      <p>Given a start Person, find Tags that are attached to Posts that were created by that Person’s friends. Only include Tags that were attached to friends’ Posts created within a given time interval, and that were never attached to friends’ Posts created before this interval.</p>
     </div>
     <div class="col-sm-9">
       <figure>
@@ -100,8 +136,9 @@
 
 <slide class="row-fluid">
     <div class="col-sm-3">
-      <h3>LDBC Complex Query 6</h3>
-      <p class="lead">Informative text</p>
+      <h3>Tag co-occurrence</h3>
+      <p class="lead">LDBC Read Complex Query 6</p>
+      <p>Given a start Person and some Tag, find the other Tags that occur together with this Tag on Posts that were created by start Person’s friends and friends of friends (excluding start Person). Return top 10 Tags, and the count of Posts that were created by these Persons, which contain both this Tag and the given Tag.</p>
     </div>
     <div class="col-sm-9">
       <figure>
@@ -143,9 +180,11 @@
 
 <slide class="row-fluid">
   <div class="col-sm-3">
-    <h3>LDBC Complex Query 7</h3>
-    <p class="lead">Informative text</p>
+    <h3>Recent likers</h3>
+    <p class="lead">LDBC Read Complex Query 7</p>
+    <p>Given a start Person, find the most recent likes on any of start Person’s Messages. Find Persons that liked any of start Person’s Messages, the Messages they liked most recently, the creation date of that like, and the latency in minutes between creation of Messages and like. </p>
   </div>
+
   <div class="col-sm-9">
     <figure>
       <pre class="pre-scrollable code runnable">WITH fabric.graphIds()  AS gids
@@ -190,8 +229,9 @@
 
 <slide class="row-fluid">
   <div class="col-sm-3">
-    <h3>LDBC Complex Query 9</h3>
-    <p class="lead">Informative text</p>
+    <h3>Recent messages by friends or friends of friends</h3>
+    <p class="lead">LDBC Read Complex Query 9</p>
+    <p>Given a start Person, find the most recent Messages created by that Person’s friends or friends of friends (excluding start Person). Only consider Messages created before the given maxDate.</p>
   </div>
   <div class="col-sm-9">
     <figure>
