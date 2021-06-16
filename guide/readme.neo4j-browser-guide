@@ -1,7 +1,13 @@
 <carousel class="deck container-fluid">
-  <slide class="row-fluid">LDBC</slide>
+  <slide class="row-fluid">LDBC
 
-    <a href="http://ldbc.github.io/ldbc_snb_docs/ldbc-snb-specification.pdf">LDBC Benchmark Reference</a>
+    The Trillion Graph dataset is a social graph, generated according to the specifications
+    of the <a href="http://ldbc.github.io/ldbc_snb_docs/ldbc-snb-specification.pdf">LDBC Social Network Benchmark graph</a>.
+    The people, forums, and content are easy to understand yet demonstrate the challenges of data volume growth --
+    the 
+    <img src="./resources/images/ldbc-model.png" />
+  </slide>
+
   <slide class="row-fluid">
     <div class="col-sm-3">
       <h3>LDBC Complex Query 4</h3>
