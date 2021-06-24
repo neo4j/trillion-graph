@@ -21,7 +21,7 @@ The NODES 2021 Keynote recording showing the Trillion Graph Demo live:
 
 <div><a href="https://www.youtube.com/watch?v=4ZCs83_iHU8&t=2874s"><img src="https://user-images.githubusercontent.com/67427/123327197-73a5d780-d53a-11eb-94d4-c069328fa562.png"/></a></div>
 
-Our CEO Emil Eifrem's Twitter Commentary:
+A twitter thread summary of the demo:
 
 <div><a href="https://twitter.com/emileifrem/status/1405528420402925575"><img width="300px" src="https://user-images.githubusercontent.com/67427/123326591-b6b37b00-d539-11eb-8086-3fdf25dfa92d.png"></a></div>
 
