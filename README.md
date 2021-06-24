@@ -13,6 +13,20 @@
 
 This repository contains the code necessary to reproduce the results for the Trillion Entity demonstration that was part of the NODES 2021 Keynote presentation. It contains the store generation code we used, the orchestration scripts for the AWS instances that are needed to run the setup, the queries we executed, and the client that performs the latency measurements. Please read this README in its entirety before proceeding, to make sure you have an understanding of the necessary steps.
 
+### More Information
+
+Blog post with more behind the scenes information ["Behind the Scenes of Creating the World’s Biggest Graph Database"](https://medium.com/neo4j/behind-the-scenes-of-creating-the-worlds-biggest-graph-database-cd22f477c843)
+
+The NODES 2021 Keynote recording showing the Trillion Graph Demo live:
+
+<div><a href="https://www.youtube.com/watch?v=4ZCs83_iHU8&t=2874s"><img src="https://user-images.githubusercontent.com/67427/123327197-73a5d780-d53a-11eb-94d4-c069328fa562.png"/></a></div>
+
+Our CEO Emil Eifrem's Twitter Commentary:
+
+<div><a href="https://twitter.com/emileifrem/status/1405528420402925575"><img width="300px" src="https://user-images.githubusercontent.com/67427/123326591-b6b37b00-d539-11eb-8086-3fdf25dfa92d.png"></a></div>
+
+### How To
+
 What you'll need:
 
 1. _An AWS account_ with sufficient capacity for the number and type of EC2 instances you'll create, including access to S3. AWS is the default provider this application uses; it should be possible to modify it to use the cloud provider of your choice.
